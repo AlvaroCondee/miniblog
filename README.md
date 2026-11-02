@@ -52,3 +52,26 @@ minitutorial de 3 pasos explica cómo acceder; se puede reabrir con «¿Cómo ac
   si se marca, en el menú.
 - Buscador (`/buscar?q=`), paginación de 10 en 10 y feed RSS en `/rss`.
 - Tras actualizar desde una versión anterior, ejecuta `php bin/console create-schema`.
+
+**Usuarios de demostración (para probar)**
+
+Crea un alumno y un docente de prueba desde la consola. El comando pide la contraseña
+(mínimo 8 caracteres, por eso no sirve `demo`; aquí se usa `demo1234`):
+
+```
+$ php bin/console app:create-user alumno.demo "Alumno Demo" --role=ROLE_STUDENT
+$ php bin/console app:create-user docente.demo "Docente Demo" --role=ROLE_TEACHER
+```
+
+Para crearlos sin que pregunte (por ejemplo, en un script):
+
+```
+$ printf 'demo1234\n' | php bin/console app:create-user alumno.demo "Alumno Demo" --role=ROLE_STUDENT
+$ printf 'demo1234\n' | php bin/console app:create-user docente.demo "Docente Demo" --role=ROLE_TEACHER
+```
+
+Con ellos puedes probar el flujo completo: entra como `alumno.demo`, escribe una entrada y envíala a
+revisión; después entra como `docente.demo` (o como administrador), revísala y publícala.
+
+> **Importante:** borra estos usuarios (en `/admin/users/`, como administrador) o cambia su contraseña
+> antes de publicar el blog en internet. Contraseñas conocidas en un servidor público son un riesgo.
