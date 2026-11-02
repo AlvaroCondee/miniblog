@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
-        <title>{% block title '' %} - My Silex Application</title>
+        <meta charset="UTF-8">
+        <title>{% block title '' %} - Miniblog</title>
         {% block stylesheets %}
-        <link href="{{ app.request.basepath }}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         {% endblock %}
     </head>
     <body>
