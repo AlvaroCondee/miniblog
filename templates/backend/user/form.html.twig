@@ -1,0 +1,14 @@
+{% extends 'backend/layout.html.twig' %}
+
+{% block title title %}
+
+{% block container %}
+<div class="container">
+    <h2>{{ title }}</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ path('user_list') }}">Cancelar</a>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

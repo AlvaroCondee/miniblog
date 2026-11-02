@@ -1,15 +1,15 @@
 security:
     password_hashers:
-        Symfony\Component\Security\Core\User\InMemoryUser: 'auto'
+        App\Security\User: 'auto'
 
     providers:
-        users_in_memory:
-            memory:
-                users:
-                    # usuario: admin; contraseña: 1234
-                    admin:
-                        password: '$2y$10$y.DtTqnPnuMMKSEgC.NimO7dqAQfljFW0K9MRZUdn0VzugYxas3mS'
-                        roles: ['ROLE_ADMIN']
+        app_users:
+            id: App\Security\UserProvider
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_TEACHER]
+        ROLE_TEACHER: [ROLE_USER]
+        ROLE_STUDENT: [ROLE_USER]
 
     firewalls:
         dev:
@@ -17,17 +17,24 @@ security:
             security: false
         main:
             lazy: true
-            provider: users_in_memory
-            http_basic:
-                realm: Miniblog
+            provider: app_users
+            form_login:
+                login_path: login
+                check_path: login
+                enable_csrf: true
+                default_target_path: backend
+            logout:
+                path: logout
+                target: homepage
 
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin/(users|categories), roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_USER }
 
 when@test:
     security:
         password_hashers:
-            Symfony\Component\Security\Core\User\InMemoryUser:
+            App\Security\User:
                 algorithm: auto
                 cost: 4
                 time_cost: 3

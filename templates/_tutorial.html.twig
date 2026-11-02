@@ -1,0 +1,60 @@
+{# Minitutorial de acceso: se muestra la primera vez que un visitante anónimo entra en la web #}
+<dialog id="tutorial" class="ies-tutorial" aria-labelledby="tutorial-title">
+    <form method="dialog" class="ies-tutorial-close"><button aria-label="Cerrar">&times;</button></form>
+    <div class="ies-tutorial-step" data-step="1">
+        <h3 id="tutorial-title">¡Bienvenido al blog del {{ school.name }}!</h3>
+        <p>Aquí encontrarás las noticias y actividades del centro. Leer es libre; para <strong>publicar</strong> necesitas una cuenta de docente o de alumno.</p>
+    </div>
+    <div class="ies-tutorial-step" data-step="2" hidden>
+        <h3>Cómo acceder</h3>
+        <ol>
+            <li>Pulsa <strong>«Acceder»</strong>, arriba a la derecha.</li>
+            <li>Escribe tu <strong>usuario</strong> y tu <strong>contraseña</strong>.</li>
+            <li>Entrarás en <strong>«Mi panel»</strong>, donde verás tus entradas.</li>
+        </ol>
+        <p><small>¿No tienes cuenta o has olvidado la contraseña? Pídesela a la persona que administra el blog o contacta con el centro: <a href="{{ path('contact') }}">datos de contacto</a>.</small></p>
+    </div>
+    <div class="ies-tutorial-step" data-step="3" hidden>
+        <h3>Qué puedes hacer</h3>
+        <ul>
+            <li><strong>Alumnado:</strong> escribe una entrada y envíala a revisión. Un docente la revisará y la publicará.</li>
+            <li><strong>Docentes:</strong> publican entradas, las revisan y las gestionan.</li>
+        </ul>
+        <p><small>Recuerda no publicar fotos de otras personas sin su autorización.</small></p>
+    </div>
+    <div class="ies-tutorial-nav">
+        <span id="tutorial-count"></span>
+        <button type="button" class="btn" id="tutorial-prev">Anterior</button>
+        <button type="button" class="btn btn-primary" id="tutorial-next">Siguiente</button>
+    </div>
+</dialog>
+<script>
+(function () {
+    var dlg = document.getElementById('tutorial');
+    if (!dlg || typeof dlg.showModal !== 'function') { return; }
+    var steps = dlg.querySelectorAll('.ies-tutorial-step'), i = 0;
+    var prev = document.getElementById('tutorial-prev'), next = document.getElementById('tutorial-next');
+    var count = document.getElementById('tutorial-count'), KEY = 'ies-tutorial-visto';
+    function show(n) {
+        i = n;
+        steps.forEach(function (s, k) { s.hidden = k !== i; });
+        prev.style.visibility = i === 0 ? 'hidden' : 'visible';
+        next.textContent = i === steps.length - 1 ? 'Entendido' : 'Siguiente';
+        count.textContent = (i + 1) + ' / ' + steps.length;
+        document.body.classList.toggle('tutorial-resalta-acceso', i === 1);
+    }
+    prev.addEventListener('click', function () { show(i - 1); });
+    next.addEventListener('click', function () { i === steps.length - 1 ? dlg.close() : show(i + 1); });
+    dlg.addEventListener('close', function () {
+        document.body.classList.remove('tutorial-resalta-acceso');
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    });
+    function open() { show(0); dlg.showModal(); }
+    document.querySelectorAll('[data-open-tutorial]').forEach(function (b) {
+        b.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    });
+    var seen = false;
+    try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+    {% if autoopen is not same as(false) %}if (!seen) { open(); }{% endif %}
+})();
+</script>

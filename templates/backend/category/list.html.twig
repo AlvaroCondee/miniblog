@@ -1,0 +1,26 @@
+{% extends 'backend/layout.html.twig' %}
+
+{% block title 'Categorías' %}
+
+{% block container %}
+<div class="container">
+    <h2>Categorías</h2>
+    <ul>
+    {% for c in categories %}
+        <li>{{ c.name }}
+            <form action="{{ path('category_delete', {id: c.id}) }}" method="post" style="display:inline"
+                  onsubmit="return confirm('¿Borrar la categoría? Sus entradas quedarán sin categoría.');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete-category' ~ c.id) }}">
+                <button type="submit" class="btn btn-link" style="padding:0">Borrar</button>
+            </form>
+        </li>
+    {% else %}
+        <li>Aún no hay categorías</li>
+    {% endfor %}
+    </ul>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Añadir</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

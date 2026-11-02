@@ -1,0 +1,3 @@
+{% for type, messages in app.flashes %}
+    {% for message in messages %}<div class="ies-flash {{ type }}">{{ message }}</div>{% endfor %}
+{% endfor %}

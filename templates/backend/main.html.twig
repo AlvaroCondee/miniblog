@@ -1,46 +1,39 @@
 {% extends 'backend/layout.html.twig' %}
 
-{% block title 'Backend - Portada' %}
+{% block title 'Panel' %}
 
 {% block container %}
+{% set labels = {draft: 'Borrador', pending: 'Pendiente de revisión', published: 'Publicada'} %}
 <div id="core" class="container clearfix">
-    <div id="primary-content" class="clearfix">
-        <h2>Lista de artículos</h2>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th class="span3">Título</th>
-                    <th>Contenido</th>
-                    <th class="span3">Fecha creación</th>
-                    <th class="span2">Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            {% for entry in entries %}
-                <tr>
-                    <td>{{ entry.id }}</td>
-                    <td>{{ entry.title }}</td>
-                    <td>{{ entry.content|striptags|u.truncate(200, '…') }}</td>
-                    <td>{{ entry.created_at|date('d/m/Y H:i:s') }}</td>
-                    <td>
-                        <a href="{{ path('entry_edit', {id: entry.id}) }}">Editar</a>
-                        <form action="{{ path('entry_delete', {id: entry.id}) }}" method="post" style="display:inline"
-                              onsubmit="return confirm('¿Borrar este artículo?');">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entry.id) }}">
-                            <button type="submit" class="btn btn-link" style="padding:0">Borrar</button>
-                        </form>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">Aún no hay artículos creados</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <h2>{{ is_granted('ROLE_TEACHER') ? 'Todas las entradas' : 'Mis entradas' }}</h2>
+    <table class="table">
+        <thead>
+            <tr><th>Título</th><th>Autor</th><th>Categoría</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+        {% for entry in entries %}
+            {% set editable = is_granted('ROLE_TEACHER') or entry.status != 'published' %}
+            <tr>
+                <td>{{ entry.title }}<br><small class="muted">{{ entry.content|striptags|u.truncate(80, '…') }}</small></td>
+                <td>{{ entry.author ?? '—' }}</td>
+                <td>{{ entry.category ?? '—' }}</td>
+                <td><span class="label label-status-{{ entry.status }}">{{ labels[entry.status] ?? entry.status }}</span></td>
+                <td>{{ entry.created_at|date('d/m/Y H:i') }}</td>
+                <td>
+                {% if editable %}
+                    <a href="{{ path('entry_edit', {id: entry.id}) }}">Editar</a>
+                    <form action="{{ path('entry_delete', {id: entry.id}) }}" method="post" style="display:inline"
+                          onsubmit="return confirm('¿Borrar este artículo?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entry.id) }}">
+                        <button type="submit" class="btn btn-link" style="padding:0">Borrar</button>
+                    </form>
+                {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="6">Aún no hay artículos creados</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

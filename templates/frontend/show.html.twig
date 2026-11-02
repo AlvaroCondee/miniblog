@@ -1,0 +1,16 @@
+{% extends 'frontend/layout.html.twig' %}
+
+{% block title entry.title %}
+
+{% block container %}
+    <div class="post">
+        <h1>{{ entry.title }}</h1>
+        <span class="post-meta">
+            {{ entry.created_at|date('d/m/Y') }}
+            {% if entry.author %}· {{ entry.author }}{% endif %}
+            {% if entry.category %}· <a href="{{ path('category', {slug: entry.category_slug}) }}">{{ entry.category }}</a>{% endif %}
+        </span>
+        <div>{{ entry.content|raw }}</div>
+        <p><a href="{{ path('homepage') }}">&laquo; Volver a la portada</a></p>
+    </div>
+{% endblock %}
