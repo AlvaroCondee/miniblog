@@ -1,9 +1,8 @@
-{% extends 'backend/layout.twig' %}
+{% extends 'backend/layout.html.twig' %}
 
-{% block title     'Backend - Portada' %}
+{% block title 'Backend - Portada' %}
 
 {% block container %}
-
 <div id="core" class="container clearfix">
     <div id="primary-content" class="clearfix">
         <h2>Lista de artículos</h2>
@@ -24,20 +23,20 @@
                 <tr>
                     <td>{{ entry.id }}</td>
                     <td>{{ entry.title }}</td>
-                    <td>{{ entry.content | striptags | truncate(200) | raw }}</td>
-                    <td>{{ entry.created_at | date('d/m/Y H:M:s') }}</td>
+                    <td>{{ entry.content|striptags|u.truncate(200, '…') }}</td>
+                    <td>{{ entry.created_at|date('d/m/Y H:i:s') }}</td>
                     <td>
-                        <a href="{{ path('entry_edit', { 'id': entry.id }) }}">
-                            Editar
-                        </a> | 
-                        <a href="{{ path('entry_delete', { 'id': entry.id }) }}">
-                            Borrar
-                        </a>
+                        <a href="{{ path('entry_edit', {id: entry.id}) }}">Editar</a>
+                        <form action="{{ path('entry_delete', {id: entry.id}) }}" method="post" style="display:inline"
+                              onsubmit="return confirm('¿Borrar este artículo?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ entry.id) }}">
+                            <button type="submit" class="btn btn-link" style="padding:0">Borrar</button>
+                        </form>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">Aún no hay artículos creados</td>
+                    <td colspan="5">Aún no hay artículos creados</td>
                 </tr>
             {% endfor %}
             </tbody>

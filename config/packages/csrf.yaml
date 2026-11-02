@@ -1,0 +1,5 @@
+# Protección CSRF clásica basada en sesión (no requiere JavaScript)
+framework:
+    form:
+        csrf_protection: true
+    csrf_protection: true
