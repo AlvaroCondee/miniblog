@@ -1,0 +1,29 @@
+{# Editor de texto enriquecido (CKEditor 5, copia local). Parámetro: field = nombre completo del campo #}
+<link rel="stylesheet" href="{{ asset('vendor/ckeditor5/ckeditor5.css') }}">
+<script src="{{ asset('vendor/ckeditor5/ckeditor5.umd.js') }}"></script>
+<script src="{{ asset('vendor/ckeditor5/es.umd.js') }}"></script>
+<script>
+(function () {
+    var C = window.CKEDITOR, el = document.querySelector('[name="{{ field }}"]');
+    if (!C || !el) { return; }
+    C.ClassicEditor.create(el, {
+        licenseKey: 'GPL',
+        language: 'es',
+        plugins: [C.Essentials, C.Paragraph, C.Heading, C.Bold, C.Italic, C.Underline, C.Link, C.AutoLink,
+                  C.List, C.BlockQuote, C.Table, C.TableToolbar, C.Image, C.ImageToolbar, C.ImageCaption,
+                  C.ImageStyle, C.ImageUpload, C.SimpleUploadAdapter, C.Autoformat, C.PasteFromOffice],
+        toolbar: ['undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'underline', 'link', '|',
+                  'bulletedList', 'numberedList', 'blockQuote', '|', 'uploadImage', 'insertTable'],
+        heading: { options: [
+            { model: 'paragraph', title: 'Párrafo', class: 'ck-heading_paragraph' },
+            { model: 'heading2', view: 'h2', title: 'Título', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Subtítulo', class: 'ck-heading_heading3' }
+        ] },
+        image: { toolbar: ['imageStyle:inline', 'imageStyle:block', '|', 'toggleImageCaption', 'imageTextAlternative'] },
+        link: { defaultProtocol: 'https://' },
+        table: { contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'] },
+        simpleUpload: { uploadUrl: '{{ path('upload') }}', headers: { 'X-CSRF-TOKEN': '{{ csrf_token('upload') }}' } }
+    }).then(function (editor) { window.miEditor = editor; })
+      .catch(function (e) { console.error('No se pudo iniciar el editor', e); });
+})();
+</script>

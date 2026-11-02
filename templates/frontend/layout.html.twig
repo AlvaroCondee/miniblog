@@ -9,6 +9,9 @@
     <header class="ies-header">
         <div class="inner">
             <a href="{{ path('homepage') }}"><img src="{{ asset('img/logo.png') }}" alt="IES Trassierra"></a>
+            <form class="ies-search" action="{{ path('search') }}" method="get" role="search">
+                <input type="search" name="q" value="{{ query|default('') }}" placeholder="Buscar…" aria-label="Buscar" minlength="2">
+            </form>
             <p class="tagline"><strong>Blog del {{ school.name }}</strong><br>Noticias y actividades de nuestro centro ({{ school.city }})</p>
         </div>
     </header>
@@ -17,6 +20,9 @@
             <li><a href="{{ path('homepage') }}">Inicio</a></li>
             {% for c in site_categories() %}
                 <li><a href="{{ path('category', {slug: c.slug}) }}">{{ c.name }}</a></li>
+            {% endfor %}
+            {% for pg in site_pages() %}
+                <li><a href="{{ path('page_show', {slug: pg.slug}) }}">{{ pg.title }}</a></li>
             {% endfor %}
             <li><a href="{{ path('contact') }}">Contacto</a></li>
             {% if not is_granted('ROLE_USER') %}<li class="right"><a href="#" data-open-tutorial>¿Cómo accedo?</a></li>{% endif %}
@@ -31,7 +37,8 @@
     </main>
     <footer class="ies-footer">
         <strong>{{ school.name }}</strong> · {{ school.address }}, {{ school.postal_code }} {{ school.city }} ·
-        Tel. <a href="tel:{{ school.phone_link }}">{{ school.phone }}</a> · <a href="{{ path('contact') }}">Contacto</a>
+        Tel. <a href="tel:{{ school.phone_link }}">{{ school.phone }}</a> · <a href="{{ path('contact') }}">Contacto</a> ·
+        <a href="{{ path('rss') }}">RSS</a>
     </footer>
     {% if not is_granted('ROLE_USER') %}{% include '_tutorial.html.twig' with {autoopen: autoopen_tutorial is defined ? autoopen_tutorial : true} %}{% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title '' %} - Blog del IES Trassierra</title>
         <link rel="icon" href="{{ asset('img/logo.png') }}">
+        <link rel="alternate" type="application/rss+xml" title="Blog del IES Trassierra" href="{{ path('rss') }}">
         {% block stylesheets %}
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/trassierra.css') }}" rel="stylesheet" type="text/css" />

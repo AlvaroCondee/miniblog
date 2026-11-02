@@ -1,9 +1,10 @@
 {% extends 'frontend/layout.html.twig' %}
 
-{% block title category ? category.name : 'Portada' %}
+{% block title query is not null ? 'Búsqueda' : (category ? category.name : 'Portada') %}
 
 {% block container %}
     {% if category %}<h2>{{ category.name }}</h2>{% endif %}
+    {% if query is not null %}<h2>Resultados para «{{ query }}»</h2>{% endif %}
     {% for entry in entries %}
     <div class="post">
         <h1><a href="{{ path('entry_show', {id: entry.id}) }}">{{ entry.title }}</a></h1>
@@ -13,9 +14,10 @@
             {% if entry.category %}· <a href="{{ path('category', {slug: entry.category_slug}) }}">{{ entry.category }}</a>{% endif %}
         </span>
         {# El contenido lo escribe personal autorizado mediante CKEditor y es HTML #}
-        <div>{{ entry.content|raw }}</div>
+        <div class="ies-contenido">{{ entry.content|raw }}</div>
     </div>
     {% else %}
-        <h1>Aún no hay artículos publicados</h1>
+        <h1>{{ query is not null ? 'No se han encontrado artículos.' : 'Aún no hay artículos publicados' }}</h1>
     {% endfor %}
+    {% include '_pagination.html.twig' %}
 {% endblock %}

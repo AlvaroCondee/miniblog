@@ -21,6 +21,7 @@
               <li><a href="{{ path('entry_new') }}">Añadir artículo</a></li>
               {% if is_granted('ROLE_ADMIN') %}
               <li><a href="{{ path('category_list') }}">Categorías</a></li>
+              <li><a href="{{ path('page_list') }}">Páginas</a></li>
               <li><a href="{{ path('user_list') }}">Usuarios</a></li>
               {% endif %}
               <li><a href="{{ path('homepage') }}">Ver web</a></li>
@@ -38,5 +39,4 @@
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'backend/layout.html.twig' %}
+
+{% block title 'Páginas' %}
+
+{% block container %}
+<div class="container">
+    <h2>Páginas fijas <a class="btn btn-small btn-primary" href="{{ path('page_new') }}">Nueva página</a></h2>
+    <table class="table">
+        <thead><tr><th>Título</th><th>Dirección</th><th>En el menú</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for p in pages %}
+            <tr>
+                <td>{{ p.title }}</td>
+                <td><a href="{{ path('page_show', {slug: p.slug}) }}">/p/{{ p.slug }}</a></td>
+                <td>{{ p.in_menu ? 'Sí' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('page_edit', {id: p.id}) }}">Editar</a>
+                    <form action="{{ path('page_delete', {id: p.id}) }}" method="post" style="display:inline"
+                          onsubmit="return confirm('¿Borrar esta página?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-page' ~ p.id) }}">
+                        <button type="submit" class="btn btn-link" style="padding:0">Borrar</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">Aún no hay páginas. Crea, por ejemplo, «Horarios» o «Normas de convivencia».</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -7,10 +7,12 @@ namespace App\Controller;
 use App\Security\User;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,8 +31,10 @@ final class BackendController extends AbstractController
     public const STATUS_PENDING = 'pending';
     public const STATUS_PUBLISHED = 'published';
 
-    public function __construct(private readonly Connection $db)
-    {
+    public function __construct(
+        private readonly Connection $db,
+        #[Target('app.post_sanitizer')] private readonly HtmlSanitizerInterface $sanitizer,
+    ) {
     }
 
     #[Route('/', name: 'backend', methods: ['GET'])]
@@ -65,7 +69,7 @@ final class BackendController extends AbstractController
             $data = $form->getData();
             $this->db->insert('entry', [
                 'title' => $data['title'],
-                'content' => (string) $data['content'],
+                'content' => $this->sanitizer->sanitize((string) $data['content']),
                 'category_id' => $data['category_id'] ?? null,
                 'status' => $data['status'],
                 'user_id' => $user->getId(),
@@ -92,7 +96,7 @@ final class BackendController extends AbstractController
             $data = $form->getData();
             $this->db->update('entry', [
                 'title' => $data['title'],
-                'content' => (string) $data['content'],
+                'content' => $this->sanitizer->sanitize((string) $data['content']),
                 'category_id' => $data['category_id'] ?? null,
                 'status' => $data['status'],
             ], ['id' => $id]);
@@ -169,7 +173,7 @@ final class BackendController extends AbstractController
             ->add('content', TextareaType::class, [
                 'label' => 'Contenido',
                 'required' => false,
-                'constraints' => [new Assert\Length(max: 5000)],
+                'constraints' => [new Assert\Length(max: 50000)],
                 'attr' => ['class' => 'span8', 'rows' => 10],
             ])
             ->add('status', ChoiceType::class, [

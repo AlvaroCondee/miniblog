@@ -10,7 +10,7 @@
             {% if entry.author %}· {{ entry.author }}{% endif %}
             {% if entry.category %}· <a href="{{ path('category', {slug: entry.category_slug}) }}">{{ entry.category }}</a>{% endif %}
         </span>
-        <div>{{ entry.content|raw }}</div>
+        <div class="ies-contenido">{{ entry.content|raw }}</div>
         <p><a href="{{ path('homepage') }}">&laquo; Volver a la portada</a></p>
     </div>
 {% endblock %}
