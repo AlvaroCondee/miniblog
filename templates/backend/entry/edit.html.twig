@@ -17,7 +17,5 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script>
-    CKEDITOR.replace('{{ form.content.vars.full_name }}');
-</script>
+{% include 'backend/_editor.html.twig' with {field: form.content.vars.full_name} %}
 {% endblock %}

@@ -40,3 +40,38 @@ Para crear más usuarios desde la consola: `php bin/console app:create-user NOMB
 La dirección y el teléfono que aparecen en el pie y en `/contacto` se editan en
 `config/packages/twig.yaml` (clave `school`). La primera vez que un visitante entra, un
 minitutorial de 3 pasos explica cómo acceder; se puede reabrir con «¿Cómo accedo?».
+
+**Editor, imágenes, páginas, buscador y RSS (v2.2)**
+
+- El editor es CKEditor 5 (copia local en `public/vendor/ckeditor5`, licencia GPL-2+; ver `LICENSE.md`
+  de esa carpeta). Las imágenes se suben desde el propio editor a `public/uploads/` (JPG, PNG, GIF o WebP,
+  máx. 3 MB; si el servidor limita menos con `upload_max_filesize`/`post_max_size`, aplica el límite del servidor).
+  **`public/uploads/` debe ser escribible por el servidor web**, y conviene incluirla en las copias de seguridad.
+- Todo el HTML que se guarda se sanea en el servidor (se eliminan scripts, `onclick`, `javascript:`, iframes…).
+- El administrador crea páginas fijas (horarios, normas…) en `/admin/pages/`; se muestran en `/p/<dirección>` y,
+  si se marca, en el menú.
+- Buscador (`/buscar?q=`), paginación de 10 en 10 y feed RSS en `/rss`.
+- Tras actualizar desde una versión anterior, ejecuta `php bin/console create-schema`.
+
+**Usuarios de demostración (para probar)**
+
+Crea un alumno y un docente de prueba desde la consola. El comando pide la contraseña
+(mínimo 8 caracteres, por eso no sirve `demo`; aquí se usa `demo1234`):
+
+```
+$ php bin/console app:create-user alumno.demo "Alumno Demo" --role=ROLE_STUDENT
+$ php bin/console app:create-user docente.demo "Docente Demo" --role=ROLE_TEACHER
+```
+
+Para crearlos sin que pregunte (por ejemplo, en un script):
+
+```
+$ printf 'demo1234\n' | php bin/console app:create-user alumno.demo "Alumno Demo" --role=ROLE_STUDENT
+$ printf 'demo1234\n' | php bin/console app:create-user docente.demo "Docente Demo" --role=ROLE_TEACHER
+```
+
+Con ellos puedes probar el flujo completo: entra como `alumno.demo`, escribe una entrada y envíala a
+revisión; después entra como `docente.demo` (o como administrador), revísala y publícala.
+
+> **Importante:** borra estos usuarios (en `/admin/users/`, como administrador) o cambia su contraseña
+> antes de publicar el blog en internet. Contraseñas conocidas en un servidor público son un riesgo.

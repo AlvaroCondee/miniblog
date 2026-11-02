@@ -19,4 +19,11 @@ final class SiteExtension
     {
         return $this->db->fetchAllAssociative('SELECT * FROM category ORDER BY name');
     }
+
+    /** @return list<array<string, mixed>> */
+    #[AsTwigFunction('site_pages')]
+    public function pages(): array
+    {
+        return $this->db->fetchAllAssociative('SELECT title, slug FROM page WHERE in_menu = 1 ORDER BY title');
+    }
 }

@@ -35,3 +35,14 @@
 .ies-tutorial-nav #tutorial-count { flex: 1; color: #888; }
 .ies-tutorial-nav .btn-primary { background: var(--ies-granate); border-color: var(--ies-granate-oscuro); background-image: none; }
 .tutorial-resalta-acceso .ies-nav a.acceso { background: var(--ies-amarillo); color: #000; font-weight: bold; }
+
+/* Buscador y contenido del editor */
+.ies-search { margin: 0; order: 3; }
+.ies-search input { margin: 0; }
+.ies-contenido img { max-width: 100%; height: auto; }
+.ies-contenido figure { margin: 1em 0; }
+.ies-contenido figure.image { text-align: center; }
+.ies-contenido figure.image img { display: inline-block; }
+.ies-contenido figcaption { font-size: .85em; color: #666; }
+.ies-contenido table { border-collapse: collapse; } .ies-contenido td, .ies-contenido th { border: 1px solid #ccc; padding: 4px 8px; }
+.ies-contenido blockquote { border-left: 4px solid var(--ies-granate); margin-left: 0; padding-left: 12px; color: #555; }

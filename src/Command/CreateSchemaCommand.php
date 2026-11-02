@@ -64,6 +64,17 @@ final class CreateSchemaCommand extends Command
             )
             SQL);
 
+        $this->db->executeStatement(<<<'SQL'
+            CREATE TABLE IF NOT EXISTS page (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                slug VARCHAR(150) NOT NULL UNIQUE,
+                content TEXT NOT NULL DEFAULT '',
+                in_menu INTEGER NOT NULL DEFAULT 0,
+                created_at DATETIME NOT NULL
+            )
+            SQL);
+
         $output->writeln('<info>Esquema creado/actualizado.</info>');
 
         return Command::SUCCESS;
