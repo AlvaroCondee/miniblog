@@ -9,7 +9,7 @@
     <header class="ies-header">
         <div class="inner">
             <a href="{{ path('homepage') }}"><img src="{{ asset('img/logo.png') }}" alt="IES Trassierra"></a>
-            <p class="tagline"><strong>Blog del IES Trassierra</strong><br>Noticias y actividades de nuestro centro (Córdoba)</p>
+            <p class="tagline"><strong>Blog del {{ school.name }}</strong><br>Noticias y actividades de nuestro centro ({{ school.city }})</p>
         </div>
     </header>
     <nav class="ies-nav">
@@ -18,8 +18,10 @@
             {% for c in site_categories() %}
                 <li><a href="{{ path('category', {slug: c.slug}) }}">{{ c.name }}</a></li>
             {% endfor %}
-            <li class="right">
-                {% if is_granted('ROLE_USER') %}<a href="{{ path('backend') }}">Mi panel</a>{% else %}<a href="{{ path('login') }}">Acceder</a>{% endif %}
+            <li><a href="{{ path('contact') }}">Contacto</a></li>
+            {% if not is_granted('ROLE_USER') %}<li class="right"><a href="#" data-open-tutorial>¿Cómo accedo?</a></li>{% endif %}
+            <li{% if is_granted('ROLE_USER') %} class="right"{% endif %}>
+                {% if is_granted('ROLE_USER') %}<a href="{{ path('backend') }}">Mi panel</a>{% else %}<a href="{{ path('login') }}" class="acceso">Acceder</a>{% endif %}
             </li>
         </ul>
     </nav>
@@ -27,5 +29,9 @@
     <main class="ies-main">
         {% block container %}{% endblock %}
     </main>
-    <footer class="ies-footer">IES Trassierra · Córdoba</footer>
+    <footer class="ies-footer">
+        <strong>{{ school.name }}</strong> · {{ school.address }}, {{ school.postal_code }} {{ school.city }} ·
+        Tel. <a href="tel:{{ school.phone_link }}">{{ school.phone }}</a> · <a href="{{ path('contact') }}">Contacto</a>
+    </footer>
+    {% if not is_granted('ROLE_USER') %}{% include '_tutorial.html.twig' with {autoopen: autoopen_tutorial is defined ? autoopen_tutorial : true} %}{% endif %}
 {% endblock %}

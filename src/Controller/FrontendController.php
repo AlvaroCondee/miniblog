@@ -58,4 +58,10 @@ final class FrontendController extends AbstractController
 
         return $this->render('frontend/show.html.twig', ['entry' => $entry]);
     }
+
+    #[Route('/contacto', name: 'contact', methods: ['GET'])]
+    public function contact(): Response
+    {
+        return $this->render('frontend/contact.html.twig');
+    }
 }

@@ -1,0 +1,14 @@
+{% extends 'frontend/layout.html.twig' %}
+
+{% block title 'Contacto' %}
+
+{% block container %}
+    <h2>Contacto</h2>
+    <address>
+        <strong>{{ school.name }}</strong><br>
+        {{ school.address }}<br>
+        {{ school.postal_code }} {{ school.city }} ({{ school.province }})<br>
+        Teléfono: <a href="tel:{{ school.phone_link }}">{{ school.phone }}</a>
+    </address>
+    <p><a href="{{ school.map_url }}" target="_blank" rel="noopener">Ver en el mapa</a></p>
+{% endblock %}

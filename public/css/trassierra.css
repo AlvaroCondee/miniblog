@@ -24,3 +24,14 @@
 .navbar-inverse .brand img { height: 26px; vertical-align: middle; background: #fff; border-radius: 3px; padding: 1px 4px; }
 .navbar-inverse .nav > li > a { color: #fff; }
 .label-status-draft { background: #999; } .label-status-pending { background: #f89406; } .label-status-published { background: #468847; }
+
+/* Minitutorial de acceso */
+.ies-tutorial { max-width: 460px; width: calc(100% - 32px); border: 0; border-top: 6px solid var(--ies-granate); border-radius: 6px; padding: 20px 24px; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.ies-tutorial::backdrop { background: rgba(0,0,0,.45); }
+.ies-tutorial h3 { color: var(--ies-granate); margin-top: 0; }
+.ies-tutorial-close { position: absolute; top: 4px; right: 10px; margin: 0; }
+.ies-tutorial-close button { background: none; border: 0; font-size: 26px; cursor: pointer; color: #666; }
+.ies-tutorial-nav { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+.ies-tutorial-nav #tutorial-count { flex: 1; color: #888; }
+.ies-tutorial-nav .btn-primary { background: var(--ies-granate); border-color: var(--ies-granate-oscuro); background-image: none; }
+.tutorial-resalta-acceso .ies-nav a.acceso { background: var(--ies-amarillo); color: #000; font-weight: bold; }

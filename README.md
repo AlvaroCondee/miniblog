@@ -34,3 +34,9 @@ existentes quedan como publicadas). La base de datos SQLite se guarda en `var/sc
 
 Para crear más usuarios desde la consola: `php bin/console app:create-user NOMBRE "Nombre completo" --role=ROLE_TEACHER`
 (roles: `ROLE_ADMIN`, `ROLE_TEACHER`, `ROLE_STUDENT`). El administrador también puede hacerlo desde `/admin/users/`.
+
+**Datos del centro y tutorial de acceso**
+
+La dirección y el teléfono que aparecen en el pie y en `/contacto` se editan en
+`config/packages/twig.yaml` (clave `school`). La primera vez que un visitante entra, un
+minitutorial de 3 pasos explica cómo acceder; se puede reabrir con «¿Cómo accedo?».
