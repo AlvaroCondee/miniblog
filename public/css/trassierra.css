@@ -1,0 +1,26 @@
+/* Identidad visual del IES Trassierra (colores tomados del logotipo) */
+:root {
+    --ies-granate: #9f3c47;
+    --ies-granate-oscuro: #7c2e37;
+    --ies-amarillo: #fce400;
+}
+.ies-header { background: #fff; border-bottom: 4px solid var(--ies-granate); }
+.ies-header .inner { max-width: 900px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.ies-header img { height: 63px; width: auto; }
+.ies-header .tagline { margin: 0; color: var(--ies-granate); font-size: 1.1em; flex: 1; }
+.ies-nav { background: var(--ies-granate); }
+.ies-nav ul { max-width: 900px; margin: 0 auto; padding: 0 20px; list-style: none; display: flex; flex-wrap: wrap; }
+.ies-nav a { display: block; padding: 10px 14px; color: #fff; text-decoration: none; }
+.ies-nav a:hover, .ies-nav a.active { background: var(--ies-granate-oscuro); border-bottom: 3px solid var(--ies-amarillo); }
+.ies-nav li.right { margin-left: auto; }
+.ies-main { max-width: 900px; margin: 20px auto; padding: 0 20px; }
+.ies-main .post h1 a { color: var(--ies-granate); text-decoration: none; }
+.ies-main .post-meta { color: #777; font-size: 0.9em; }
+.ies-footer { border-top: 4px solid var(--ies-amarillo); background: #f5f5f5; text-align: center; padding: 14px; color: #666; margin-top: 40px; }
+.ies-flash { padding: 8px 14px; margin-bottom: 12px; border-radius: 4px; }
+.ies-flash.success { background: #dff0d8; color: #3c763d; }
+.ies-flash.error { background: #f2dede; color: #a94442; }
+.navbar-inverse .navbar-inner { background: var(--ies-granate); background-image: none; border-color: var(--ies-granate-oscuro); }
+.navbar-inverse .brand img { height: 26px; vertical-align: middle; background: #fff; border-radius: 3px; padding: 1px 4px; }
+.navbar-inverse .nav > li > a { color: #fff; }
+.label-status-draft { background: #999; } .label-status-pending { background: #f89406; } .label-status-published { background: #468847; }

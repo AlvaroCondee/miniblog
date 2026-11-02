@@ -15,14 +15,22 @@ $ git clone https://github.com/mpgprofe/miniblog.git
 $ cd miniblog
 $ composer install
 $ php bin/console create-schema
+$ php bin/console app:create-user admin "Administrador"   # pide la contraseña (mín. 8 caracteres)
 $ php -S localhost:8000 -t public
 ```
 
-La base de datos SQLite se guarda en `var/schema.sqlite` (el directorio `var/` debe
-ser escribible por el servidor web). Cambia `APP_SECRET` en un `.env.local` antes de
-desplegar en producción.
+`create-schema` también actualiza bases de datos de versiones anteriores (las entradas
+existentes quedan como publicadas). La base de datos SQLite se guarda en `var/schema.sqlite`
+(el directorio `var/` debe ser escribible por el servidor web). Cambia `APP_SECRET` en un
+`.env.local` antes de desplegar en producción.
 
-La aplicación cuenta con una parte de administración o *backend* accesible en la
-URL `/admin` (autenticación HTTP básica). El usuario es `admin` y su contraseña `1234`;
-puedes cambiarla en `config/packages/security.yaml` (genera un hash con
-`php bin/console security:hash-password`).
+**Usuarios y roles** (acceso en `/login`, panel en `/admin`)
+
+| Rol | Puede |
+|---|---|
+| Alumno | Crear entradas como borrador o enviarlas a revisión; editar/borrar solo las suyas mientras no estén publicadas. |
+| Docente | Todo lo anterior sobre cualquier entrada, y publicarlas o despublicarlas. |
+| Administrador | Todo lo anterior, más gestionar usuarios y categorías. |
+
+Para crear más usuarios desde la consola: `php bin/console app:create-user NOMBRE "Nombre completo" --role=ROLE_TEACHER`
+(roles: `ROLE_ADMIN`, `ROLE_TEACHER`, `ROLE_STUDENT`). El administrador también puede hacerlo desde `/admin/users/`.

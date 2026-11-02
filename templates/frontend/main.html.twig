@@ -1,18 +1,21 @@
 {% extends 'frontend/layout.html.twig' %}
 
-{% block title 'Frontend - Portada' %}
+{% block title category ? category.name : 'Portada' %}
 
 {% block container %}
-<div id="core" class="container clearfix">
+    {% if category %}<h2>{{ category.name }}</h2>{% endif %}
     {% for entry in entries %}
     <div class="post">
-        <h1>{{ entry.title }}</h1>
-        <span class="post-date">{{ entry.created_at|date('d/m/Y H:i') }}</span>
-        {# El contenido lo escribe un administrador mediante CKEditor y es HTML #}
+        <h1><a href="{{ path('entry_show', {id: entry.id}) }}">{{ entry.title }}</a></h1>
+        <span class="post-meta">
+            {{ entry.created_at|date('d/m/Y') }}
+            {% if entry.author %}· {{ entry.author }}{% endif %}
+            {% if entry.category %}· <a href="{{ path('category', {slug: entry.category_slug}) }}">{{ entry.category }}</a>{% endif %}
+        </span>
+        {# El contenido lo escribe personal autorizado mediante CKEditor y es HTML #}
         <div>{{ entry.content|raw }}</div>
     </div>
     {% else %}
-        <h1>Aún no hay artículos creados</h1>
+        <h1>Aún no hay artículos publicados</h1>
     {% endfor %}
-</div>
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'backend/layout.html.twig' %}
+
+{% block title 'Usuarios' %}
+
+{% block container %}
+{% set labels = {ROLE_ADMIN: 'Administrador', ROLE_TEACHER: 'Docente', ROLE_STUDENT: 'Alumno'} %}
+<div class="container">
+    <h2>Usuarios <a class="btn btn-small btn-primary" href="{{ path('user_new') }}">Nuevo usuario</a></h2>
+    <table class="table">
+        <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead>
+        <tbody>
+        {% for u in users %}
+            <tr>
+                <td>{{ u.username }}</td>
+                <td>{{ u.display_name }}</td>
+                <td>{{ labels[u.role] ?? u.role }}</td>
+                <td>
+                    <a href="{{ path('user_edit', {id: u.id}) }}">Editar</a>
+                    {% if u.id != app.user.id %}
+                    <form action="{{ path('user_delete', {id: u.id}) }}" method="post" style="display:inline"
+                          onsubmit="return confirm('¿Borrar este usuario? Sus entradas se conservarán sin autor.');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-user' ~ u.id) }}">
+                        <button type="submit" class="btn btn-link" style="padding:0">Borrar</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

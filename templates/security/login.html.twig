@@ -1,0 +1,16 @@
+{% extends 'frontend/layout.html.twig' %}
+
+{% block title 'Acceder' %}
+
+{% block container %}
+    <h2>Acceso para docentes y alumnado</h2>
+    {% if error %}<div class="ies-flash error">Usuario o contraseña incorrectos.</div>{% endif %}
+    <form method="post" action="{{ path('login') }}">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" required autofocus autocomplete="username">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="_password" required autocomplete="current-password">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <br><button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+{% endblock %}

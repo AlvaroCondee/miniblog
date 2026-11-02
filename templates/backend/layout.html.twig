@@ -3,10 +3,7 @@
 {% block stylesheets %}
 {{ parent() }}
 <style type="text/css">
-    body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-    }
+    body { padding-top: 60px; padding-bottom: 40px; }
 </style>
 {% endblock %}
 
@@ -15,22 +12,26 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
           </a>
-          <a class="brand" href="{{ path('backend') }}">Miniblog</a>
+          <a class="brand" href="{{ path('backend') }}"><img src="{{ asset('img/logo.png') }}" alt="IES Trassierra"></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="{{ path('backend') }}">Inicio</a></li>
+              <li><a href="{{ path('backend') }}">Entradas</a></li>
               <li><a href="{{ path('entry_new') }}">Añadir artículo</a></li>
+              {% if is_granted('ROLE_ADMIN') %}
+              <li><a href="{{ path('category_list') }}">Categorías</a></li>
+              <li><a href="{{ path('user_list') }}">Usuarios</a></li>
+              {% endif %}
               <li><a href="{{ path('homepage') }}">Ver web</a></li>
+              <li><a href="{{ path('logout') }}">Salir ({{ app.user.displayName }})</a></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="container">{% include '_flashes.html.twig' %}</div>
     {% block container %}{% endblock %}
 {% endblock %}
 
